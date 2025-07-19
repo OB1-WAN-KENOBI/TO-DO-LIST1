@@ -1,0 +1,38 @@
+# Файлы и папки, которые не нужно коммитить в Git
+
+# Node.js зависимости
+node_modules/
+
+# Сборка Vite
+dist/
+
+# Логи и временные файлы
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Файлы редакторов (VS Code)
+.vscode/
+*.code-workspace
+
+# Локальные env-файлы (если добавишь API-ключи позже)
+.env
+.env.local
+.env.development
+.env.production
+
+# macOS файлы
+.DS_Store
+
+# Windows файлы
+Thumbs.db
+ehthumbs.db
+
+# Другие временные файлы
+*.tmp
+*.bak
+*.swp
+*~.nib
+logs/
+*.log
