@@ -1,0 +1,157 @@
+.taskItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: all 150ms ease;
+
+  &:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transform: translateY(-2px);
+  }
+
+  &.status-completed {
+    opacity: 0.7;
+  }
+
+  &.overdue {
+    border-left: 3px solid var(--status-overdue);
+  }
+}
+
+.content {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: all 150ms ease;
+
+  &:hover {
+    color: var(--accent-primary);
+    transform: scale(1.1);
+  }
+}
+
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.priority {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &.priority-low {
+    background: rgba(160, 160, 176, 0.2);
+    color: var(--text-secondary);
+  }
+
+  &.priority-normal {
+    background: rgba(155, 92, 255, 0.2);
+    color: var(--accent-primary);
+  }
+
+  &.priority-high {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--status-overdue);
+  }
+}
+
+.description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &.overdueDate {
+    color: var(--status-overdue);
+    font-weight: 600;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.subtasks {
+  margin-top: 0.5rem;
+}
+
+.subtasksLabel {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  transition: all 150ms ease;
+
+  &:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+}

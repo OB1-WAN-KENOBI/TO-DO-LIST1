@@ -1,0 +1,128 @@
+.kanbanCard {
+  background: #1a1a27;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 150ms ease;
+  position: relative;
+
+  &:hover {
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px var(--glow-color);
+    transform: translateY(-2px);
+  }
+
+  &.overdue {
+    border-left: 3px solid var(--status-overdue);
+  }
+}
+
+.dragHandle {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: var(--text-tertiary);
+  cursor: grab;
+  padding: 0.25rem;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: var(--accent-primary);
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.priority {
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+
+  &.priority-low {
+    background: rgba(160, 160, 176, 0.2);
+    color: var(--text-secondary);
+  }
+
+  &.priority-normal {
+    background: rgba(155, 92, 255, 0.2);
+    color: var(--accent-primary);
+  }
+
+  &.priority-high {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--status-overdue);
+  }
+}
+
+.description {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.deadline {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &.overdueDate {
+    color: var(--status-overdue);
+    font-weight: 600;
+  }
+}
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.label {
+  padding: 0.125rem 0.375rem;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+}
+
+.subtasks {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}

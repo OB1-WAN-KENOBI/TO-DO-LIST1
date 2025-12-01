@@ -1,0 +1,48 @@
+.timelineView {
+  padding: 2rem 0;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hourSlot {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+
+  &.currentHour {
+    background: rgba(155, 92, 255, 0.1);
+    border-left: 3px solid var(--accent-primary);
+    padding-left: 1rem;
+  }
+}
+
+.hourLabel {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.hourTasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 60px;
+}
+
+.emptySlot {
+  min-height: 60px;
+}
