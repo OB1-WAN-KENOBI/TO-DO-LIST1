@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { format, startOfDay, addHours } from "date-fns";
 import { Task } from "../../types/task";
 import { TaskItem } from "../TaskItem";
@@ -9,6 +10,7 @@ interface TimelineViewProps {
 }
 
 export const TimelineView = ({ tasks, onEditTask }: TimelineViewProps) => {
+  const { t } = useTranslation();
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const today = startOfDay(new Date());
 
@@ -32,7 +34,7 @@ export const TimelineView = ({ tasks, onEditTask }: TimelineViewProps) => {
 
   return (
     <div className={styles.timelineView}>
-      <h2 className={styles.title}>Today's Timeline</h2>
+      <h2 className={styles.title}>{t("timeline.todayTimeline")}</h2>
       <div className={styles.timeline}>
         {hours.map((hour) => {
           const hourTasks = getTasksForHour(hour);

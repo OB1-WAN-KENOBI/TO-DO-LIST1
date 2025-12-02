@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { Plus, List, Calendar, Clock, SquaresFour } from "phosphor-react";
 import { useFilterStore } from "../../store/filterStore";
 import { ThemeSwitcher } from "../ThemeSwitcher";
+import { LanguageSwitcher } from "../LanguageSwitcher";
 import styles from "./Header.module.scss";
 
 interface HeaderProps {
@@ -8,19 +10,20 @@ interface HeaderProps {
 }
 
 export const Header = ({ onAddTask }: HeaderProps) => {
+  const { t } = useTranslation();
   const { viewMode, setViewMode, searchQuery, setSearchQuery } =
     useFilterStore();
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <h1 className={styles.title}>Todo Planner</h1>
+        <h1 className={styles.title}>{t("header.title")}</h1>
 
         <div className={styles.controls}>
           <div className={styles.search}>
             <input
               type="text"
-              placeholder="Search tasks..."
+              placeholder={t("header.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={styles.searchInput}
@@ -33,7 +36,7 @@ export const Header = ({ onAddTask }: HeaderProps) => {
                 viewMode === "list" ? styles.active : ""
               }`}
               onClick={() => setViewMode("list")}
-              aria-label="List view"
+              aria-label={t("header.listView")}
             >
               <List size={20} weight="light" />
             </button>
@@ -42,7 +45,7 @@ export const Header = ({ onAddTask }: HeaderProps) => {
                 viewMode === "kanban" ? styles.active : ""
               }`}
               onClick={() => setViewMode("kanban")}
-              aria-label="Kanban view"
+              aria-label={t("header.kanbanView")}
             >
               <SquaresFour size={20} weight="light" />
             </button>
@@ -51,7 +54,7 @@ export const Header = ({ onAddTask }: HeaderProps) => {
                 viewMode.startsWith("calendar") ? styles.active : ""
               }`}
               onClick={() => setViewMode("calendar-day")}
-              aria-label="Calendar view"
+              aria-label={t("header.calendarView")}
             >
               <Calendar size={20} weight="light" />
             </button>
@@ -60,7 +63,7 @@ export const Header = ({ onAddTask }: HeaderProps) => {
                 viewMode === "timeline" ? styles.active : ""
               }`}
               onClick={() => setViewMode("timeline")}
-              aria-label="Timeline view"
+              aria-label={t("header.timelineView")}
             >
               <Clock size={20} weight="light" />
             </button>
@@ -68,9 +71,10 @@ export const Header = ({ onAddTask }: HeaderProps) => {
 
           <button onClick={onAddTask} className={styles.addButton}>
             <Plus size={20} weight="light" />
-            Add Task
+            {t("header.addTask")}
           </button>
 
+          <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
       </div>

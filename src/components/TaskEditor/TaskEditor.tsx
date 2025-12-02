@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "phosphor-react";
@@ -20,7 +21,8 @@ interface TaskEditorProps {
 }
 
 export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
-  const { addTask, updateTask, tags } = useTaskStore();
+  const { t } = useTranslation();
+  const { addTask, updateTask } = useTaskStore();
   const {
     register,
     handleSubmit,
@@ -85,8 +87,10 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
     } else {
       addTask({
         ...data,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        subtasks: data.subtasks || [],
+        tags: data.tags || [],
+        completedAt: null,
+        parentId: null,
       });
     }
     onClose();
@@ -100,7 +104,7 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <h2>{task ? "Edit Task" : "New Task"}</h2>
+          <h2>{task ? t("taskEditor.editTask") : t("taskEditor.newTask")}</h2>
           <button onClick={onClose} className={styles.closeButton}>
             <X size={24} weight="light" />
           </button>
@@ -108,11 +112,11 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.field}>
-            <label htmlFor="title">Title *</label>
+            <label htmlFor="title">{t("taskEditor.title")} *</label>
             <input
               id="title"
               {...register("title")}
-              placeholder="Enter task title"
+              placeholder={t("taskEditor.enterTitle")}
             />
             {errors.title && (
               <span className={styles.error}>{errors.title.message}</span>
@@ -120,18 +124,18 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">{t("taskEditor.description")}</label>
             <textarea
               id="description"
               {...register("description")}
-              placeholder="Enter task description"
+              placeholder={t("taskEditor.enterDescription")}
               rows={3}
             />
           </div>
 
           <div className={styles.row}>
             <div className={styles.field}>
-              <label htmlFor="startDate">Start Date</label>
+              <label htmlFor="startDate">{t("taskEditor.startDate")}</label>
               <input
                 id="startDate"
                 type="datetime-local"
@@ -162,7 +166,7 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="deadline">Deadline</label>
+              <label htmlFor="deadline">{t("taskEditor.deadline")}</label>
               <input
                 id="deadline"
                 type="datetime-local"
@@ -195,34 +199,37 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
 
           <div className={styles.row}>
             <div className={styles.field}>
-              <label htmlFor="status">Status</label>
+              <label htmlFor="status">{t("taskEditor.status")}</label>
               <select id="status" {...register("status")}>
-                <option value="backlog">Backlog</option>
-                <option value="planned">Planned</option>
-                <option value="in-progress">In Progress</option>
-                <option value="progress">Progress</option>
-                <option value="done">Done</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-                <option value="archive">Archive</option>
+                <option value="backlog">{t("common.status.backlog")}</option>
+                <option value="planned">{t("common.status.planned")}</option>
+                <option value="in-progress">
+                  {t("common.status.in-progress")}
+                </option>
+                <option value="completed">
+                  {t("common.status.completed")}
+                </option>
+                <option value="cancelled">
+                  {t("common.status.cancelled")}
+                </option>
               </select>
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="priority">Priority</label>
+              <label htmlFor="priority">{t("taskEditor.priority")}</label>
               <select id="priority" {...register("priority")}>
-                <option value="low">Low</option>
-                <option value="normal">Normal</option>
-                <option value="high">High</option>
+                <option value="low">{t("common.priority.low")}</option>
+                <option value="normal">{t("common.priority.normal")}</option>
+                <option value="high">{t("common.priority.high")}</option>
               </select>
             </div>
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="tags">Tags</label>
+            <label htmlFor="tags">{t("taskEditor.tags")}</label>
             <input
               id="tags"
-              placeholder="Enter tags separated by commas"
+              placeholder={t("taskEditor.enterTags")}
               onBlur={(e) => {
                 const tagValues = e.target.value
                   .split(",")
@@ -234,10 +241,10 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="labels">Labels</label>
+            <label htmlFor="labels">{t("taskEditor.labels")}</label>
             <input
               id="labels"
-              placeholder="Enter labels separated by commas"
+              placeholder={t("taskEditor.enterLabels")}
               onBlur={(e) => {
                 const labelValues = e.target.value
                   .split(",")
@@ -250,7 +257,7 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="repeatType">Repeat</label>
+            <label htmlFor="repeatType">{t("taskEditor.repeat")}</label>
             <select
               id="repeatType"
               value={repeatType}
@@ -258,17 +265,17 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
                 setValue("repeatRule.type", e.target.value as RepeatType)
               }
             >
-              <option value="none">None</option>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="custom">Custom</option>
+              <option value="none">{t("common.repeatType.none")}</option>
+              <option value="daily">{t("common.repeatType.daily")}</option>
+              <option value="weekly">{t("common.repeatType.weekly")}</option>
+              <option value="monthly">{t("common.repeatType.monthly")}</option>
+              <option value="custom">{t("common.repeatType.custom")}</option>
             </select>
           </div>
 
           {repeatType !== "none" && (
             <div className={styles.field}>
-              <label htmlFor="interval">Interval (days)</label>
+              <label htmlFor="interval">{t("taskEditor.interval")}</label>
               <input
                 id="interval"
                 type="number"
@@ -279,11 +286,11 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
           )}
 
           <div className={styles.field}>
-            <label htmlFor="notes">Notes</label>
+            <label htmlFor="notes">{t("taskEditor.notes")}</label>
             <textarea
               id="notes"
               {...register("notes")}
-              placeholder="Additional notes"
+              placeholder={t("taskEditor.additionalNotes")}
               rows={4}
             />
           </div>
@@ -294,10 +301,10 @@ export const TaskEditor = ({ task, isOpen, onClose }: TaskEditorProps) => {
               onClick={onClose}
               className={styles.cancelButton}
             >
-              Cancel
+              {t("taskEditor.cancel")}
             </button>
             <button type="submit" className={styles.submitButton}>
-              {task ? "Update" : "Create"}
+              {task ? t("taskEditor.update") : t("taskEditor.create")}
             </button>
           </div>
         </form>

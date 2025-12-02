@@ -1,37 +1,45 @@
-import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
-import { Task, TaskStatus } from "../../types/task";
+import { Task, KanbanStatus } from "../../types/task";
 import { KanbanCard } from "../KanbanCard";
+import { useKanbanColumn } from "../../hooks/useKanbanColumn";
 import styles from "./KanbanColumn.module.scss";
 
 interface KanbanColumnProps {
-  status: TaskStatus;
-  title: string;
+  status: KanbanStatus;
   tasks: Task[];
   onEditTask: (task: Task) => void;
   isHidden?: boolean;
+  activeId?: string | null;
+  overId?: string | null;
 }
 
 export const KanbanColumn = ({
   status,
-  title,
   tasks,
   onEditTask,
   isHidden = false,
+  activeId,
+  overId,
 }: KanbanColumnProps) => {
+  const { t } = useTranslation();
   const { setNodeRef, isOver } = useDroppable({
     id: status,
+    data: {
+      column: status,
+    },
   });
 
-  const sortedTasks = useMemo(() => {
-    return [...tasks].sort((a, b) => (a.order || 0) - (b.order || 0));
-  }, [tasks]);
-
-  const taskIds = sortedTasks.map((task) => task.id);
+  const { sortedTasks, taskIds, getTaskProps } = useKanbanColumn({
+    tasks,
+    activeId,
+    overId,
+    status,
+  });
 
   if (isHidden) {
     return null;
@@ -43,17 +51,41 @@ export const KanbanColumn = ({
       ref={setNodeRef}
     >
       <div className={styles.header}>
-        <h3 className={styles.title}>{title}</h3>
+        <h3 className={styles.title}>{t(`kanban.columnTitles.${status}`)}</h3>
         <span className={styles.count}>{tasks.length}</span>
       </div>
       <div className={styles.content}>
         <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
+          {/* Показываем линию в начале пустой колонки */}
+          {isOver && sortedTasks.length === 0 && (
+            <div className={styles.insertLine} />
+          )}
+          {/* Показываем линию в начале непустой колонки, если перетаскиваем на саму колонку */}
+          {isOver &&
+            sortedTasks.length > 0 &&
+            overId === status &&
+            activeId && <div className={styles.insertLine} />}
           {sortedTasks.length > 0 ? (
-            sortedTasks.map((task) => (
-              <KanbanCard key={task.id} task={task} onEdit={onEditTask} />
-            ))
+            sortedTasks.map((task, index) => {
+              const { isOver: isOverTask, insertBefore } = getTaskProps(
+                task,
+                index
+              );
+
+              return (
+                <KanbanCard
+                  key={task.id}
+                  task={task}
+                  onEdit={onEditTask}
+                  activeId={activeId}
+                  overId={overId}
+                  isOver={isOverTask}
+                  insertBefore={insertBefore}
+                />
+              );
+            })
           ) : (
-            <div className={styles.empty}>No tasks</div>
+            <div className={styles.empty}>{t("kanban.noTasks")}</div>
           )}
         </SortableContext>
       </div>

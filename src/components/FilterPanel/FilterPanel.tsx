@@ -1,12 +1,14 @@
+import { useTranslation } from "react-i18next";
 import { useFilterStore } from "../../store/filterStore";
 import { TaskStatus, Priority } from "../../types/task";
+import { CustomSelect } from "../CustomSelect";
 import styles from "./FilterPanel.module.scss";
 
 export const FilterPanel = () => {
+  const { t } = useTranslation();
   const {
     dateFilter,
     statusFilter,
-    tagFilter,
     priorityFilter,
     sortBy,
     sortOrder,
@@ -46,22 +48,20 @@ export const FilterPanel = () => {
   return (
     <div className={styles.filterPanel}>
       <div className={styles.section}>
-        <label className={styles.label}>Date Filter</label>
-        <select
+        <label className={styles.label}>{t("filter.dateFilter")}</label>
+        <CustomSelect
           value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value as typeof dateFilter)}
-          className={styles.select}
-        >
-          {dateOptions.map((option) => (
-            <option key={option} value={option}>
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </option>
-          ))}
-        </select>
+          onChange={(value) => setDateFilter(value as typeof dateFilter)}
+          options={dateOptions.map((option) => ({
+            value: option,
+            label: t(`filter.dateOptions.${option}`),
+          }))}
+          label={t("filter.dateFilter")}
+        />
       </div>
 
       <div className={styles.section}>
-        <label className={styles.label}>Status</label>
+        <label className={styles.label}>{t("filter.status")}</label>
         <div className={styles.checkboxGroup}>
           <label className={styles.checkboxLabel}>
             <input
@@ -69,7 +69,7 @@ export const FilterPanel = () => {
               checked={statusFilter === "all"}
               onChange={(e) => setStatusFilter(e.target.checked ? "all" : [])}
             />
-            All
+            {t("filter.all")}
           </label>
           {statusOptions.map((status) => (
             <label key={status} className={styles.checkboxLabel}>
@@ -89,14 +89,14 @@ export const FilterPanel = () => {
                   }
                 }}
               />
-              {status}
+              {t(`filter.statusOptions.${status}`)}
             </label>
           ))}
         </div>
       </div>
 
       <div className={styles.section}>
-        <label className={styles.label}>Priority</label>
+        <label className={styles.label}>{t("filter.priority")}</label>
         <div className={styles.checkboxGroup}>
           <label className={styles.checkboxLabel}>
             <input
@@ -104,7 +104,7 @@ export const FilterPanel = () => {
               checked={priorityFilter === "all"}
               onChange={(e) => setPriorityFilter(e.target.checked ? "all" : [])}
             />
-            All
+            {t("filter.all")}
           </label>
           {priorityOptions.map((priority) => (
             <label key={priority} className={styles.checkboxLabel}>
@@ -124,28 +124,29 @@ export const FilterPanel = () => {
                   }
                 }}
               />
-              {priority}
+              {t(`filter.priorityOptions.${priority}`)}
             </label>
           ))}
         </div>
       </div>
 
       <div className={styles.section}>
-        <label className={styles.label}>Sort By</label>
-        <select
+        <label className={styles.label}>{t("filter.sortBy")}</label>
+        <CustomSelect
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-          className={styles.select}
-        >
-          {sortOptions.map((option) => (
-            <option key={option} value={option}>
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </option>
-          ))}
-        </select>
+          onChange={(value) => setSortBy(value as typeof sortBy)}
+          options={sortOptions.map((option) => ({
+            value: option,
+            label: t(`filter.sortOptions.${option}`),
+          }))}
+          label={t("filter.sortBy")}
+        />
         <button
           onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
           className={styles.sortButton}
+          aria-label={
+            sortOrder === "asc" ? t("filter.sortAsc") : t("filter.sortDesc")
+          }
         >
           {sortOrder === "asc" ? "↑" : "↓"}
         </button>
@@ -158,12 +159,12 @@ export const FilterPanel = () => {
             checked={hideArchived}
             onChange={(e) => setHideArchived(e.target.checked)}
           />
-          Hide Archived
+          {t("filter.hideArchived")}
         </label>
       </div>
 
       <button onClick={resetFilters} className={styles.resetButton}>
-        Reset Filters
+        {t("filter.resetFilters")}
       </button>
     </div>
   );

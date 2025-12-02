@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   format,
   startOfWeek,
@@ -11,7 +12,6 @@ import {
   endOfMonth,
   eachWeekOfInterval,
   addMonths,
-  subMonths,
 } from "date-fns";
 import { Task } from "../../types/task";
 import { TaskItem } from "../TaskItem";
@@ -28,6 +28,7 @@ export const CalendarView = ({
   onEditTask,
   viewMode,
 }: CalendarViewProps) => {
+  const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const getTasksForDate = (date: Date): Task[] => {
@@ -56,7 +57,7 @@ export const CalendarView = ({
               <TaskItem key={task.id} task={task} onEdit={onEditTask} />
             ))
           ) : (
-            <p className={styles.empty}>No tasks for this day</p>
+            <p className={styles.empty}>{t("common.noTasks")}</p>
           )}
         </div>
       </div>

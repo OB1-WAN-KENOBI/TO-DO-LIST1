@@ -1,0 +1,128 @@
+.customSelect {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 150ms ease;
+  user-select: none;
+
+  &:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-hover);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--glow-color);
+  }
+
+  &.open {
+    border-color: var(--accent-primary);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon {
+  color: var(--accent-primary);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-primary);
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  animation: slideDown 150ms ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  max-height: 200px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.option {
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 100ms ease;
+  position: relative;
+
+  &:hover,
+  &.focused {
+    background: var(--bg-hover);
+    color: var(--accent-primary);
+  }
+
+  &.selected {
+    background: rgba(155, 92, 255, 0.15);
+    color: var(--accent-primary);
+    font-weight: 500;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(
+        180deg,
+        var(--accent-primary),
+        var(--accent-secondary)
+      );
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+  }
+}

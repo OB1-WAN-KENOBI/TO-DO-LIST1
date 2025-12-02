@@ -1,3 +1,5 @@
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { Pencil, Trash, CheckCircle, Circle } from "phosphor-react";
 import { Task, Priority } from "../../types/task";
 import {
@@ -13,7 +15,8 @@ interface TaskItemProps {
   onEdit: (task: Task) => void;
 }
 
-export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
+export const TaskItem = memo(({ task, onEdit }: TaskItemProps) => {
+  const { t } = useTranslation();
   const { toggleStatus, deleteTask, tags } = useTaskStore();
 
   const handleToggle = () => {
@@ -21,7 +24,7 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this task?")) {
+    if (confirm(t("taskItem.confirmDelete"))) {
       deleteTask(task.id);
     }
   };
@@ -48,8 +51,8 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
           className={styles.checkbox}
           aria-label={
             task.status === "completed"
-              ? "Mark as incomplete"
-              : "Mark as complete"
+              ? t("taskItem.markIncomplete")
+              : t("taskItem.markComplete")
           }
         >
           {task.status === "completed" ? (
@@ -67,7 +70,7 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
                 task.priority
               )}`}
             >
-              {task.priority}
+              {t(`common.priority.${task.priority}`)}
             </span>
           </div>
 
@@ -78,7 +81,7 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
           <div className={styles.meta}>
             {task.startDate && (
               <span className={styles.date}>
-                Start: {formatTaskDate(task.startDate)}{" "}
+                {t("common.start")}: {formatTaskDate(task.startDate)}{" "}
                 {formatTaskTime(task.startDate)}
               </span>
             )}
@@ -88,7 +91,7 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
                   overdue ? styles.overdueDate : ""
                 }`}
               >
-                Due: {formatTaskDate(task.deadline)}{" "}
+                {t("common.due")}: {formatTaskDate(task.deadline)}{" "}
                 {formatTaskTime(task.deadline)}
               </span>
             )}
@@ -121,7 +124,8 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
           {task.subtasks.length > 0 && (
             <div className={styles.subtasks}>
               <span className={styles.subtasksLabel}>
-                Subtasks: {task.subtasks.filter((st) => st.completed).length} /{" "}
+                {t("common.subtasks")}:{" "}
+                {task.subtasks.filter((st) => st.completed).length} /{" "}
                 {task.subtasks.length}
               </span>
             </div>
@@ -133,18 +137,18 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
         <button
           onClick={() => onEdit(task)}
           className={styles.actionButton}
-          aria-label="Edit task"
+          aria-label={t("taskItem.editTask")}
         >
           <Pencil size={18} weight="light" />
         </button>
         <button
           onClick={handleDelete}
           className={styles.actionButton}
-          aria-label="Delete task"
+          aria-label={t("taskItem.deleteTask")}
         >
           <Trash size={18} weight="light" />
         </button>
       </div>
     </div>
   );
-};
+});

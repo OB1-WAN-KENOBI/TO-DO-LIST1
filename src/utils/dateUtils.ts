@@ -1,22 +1,15 @@
 import {
-  startOfDay,
   endOfDay,
   isToday,
   isTomorrow,
   isThisWeek,
-  isThisMonth,
   isPast,
   addDays,
   addWeeks,
   addMonths,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
   format,
-  parseISO,
 } from "date-fns";
-import { Task, RepeatRule, RepeatType } from "../types/task";
+import { Task } from "../types/task";
 
 export const isOverdue = (deadline: Date | null | undefined): boolean => {
   if (!deadline) return false;

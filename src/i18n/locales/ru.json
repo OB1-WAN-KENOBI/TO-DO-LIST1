@@ -1,0 +1,145 @@
+{
+  "header": {
+    "title": "Todo Планировщик",
+    "searchPlaceholder": "Поиск задач...",
+    "addTask": "Добавить",
+    "listView": "Список",
+    "kanbanView": "Канбан",
+    "calendarView": "Календарь",
+    "timelineView": "Таймлайн",
+    "switchToLightTheme": "Светлая тема",
+    "switchToDarkTheme": "Тёмная тема"
+  },
+  "filter": {
+    "dateFilter": "Фильтр по дате",
+    "status": "Статус",
+    "priority": "Приоритет",
+    "sortBy": "Сортировка",
+    "hideArchived": "Скрыть архив",
+    "resetFilters": "Сбросить",
+    "all": "Все",
+    "sortAsc": "По возрастанию",
+    "sortDesc": "По убыванию",
+    "dateOptions": {
+      "all": "Все",
+      "today": "Сегодня",
+      "tomorrow": "Завтра",
+      "week": "Эта неделя",
+      "month": "Этот месяц",
+      "overdue": "Просрочено"
+    },
+    "statusOptions": {
+      "backlog": "Бэклог",
+      "planned": "Запланировано",
+      "in-progress": "В работе",
+      "completed": "Выполнено",
+      "cancelled": "Отменено"
+    },
+    "priorityOptions": {
+      "low": "Низкий",
+      "normal": "Обычный",
+      "high": "Высокий"
+    },
+    "sortOptions": {
+      "created": "По дате создания",
+      "deadline": "По дедлайну",
+      "priority": "По приоритету",
+      "status": "По статусу",
+      "title": "По названию"
+    }
+  },
+  "kanban": {
+    "columnTitles": {
+      "backlog": "Бэклог",
+      "planned": "Запланировано",
+      "in-progress": "В работе",
+      "completed": "Готово",
+      "cancelled": "Архив"
+    },
+    "noTasks": "Нет задач"
+  },
+  "taskEditor": {
+    "newTask": "Новая задача",
+    "editTask": "Редактирование",
+    "title": "Название",
+    "enterTitle": "Введите название задачи",
+    "description": "Описание",
+    "enterDescription": "Введите описание",
+    "deadline": "Дедлайн",
+    "startDate": "Дата начала",
+    "notes": "Заметки",
+    "additionalNotes": "Дополнительные заметки",
+    "subtasks": "Подзадачи",
+    "tags": "Теги",
+    "enterTags": "Введите теги (через запятую)",
+    "labels": "Метки",
+    "enterLabels": "Введите метки (через запятую)",
+    "status": "Статус",
+    "priority": "Приоритет",
+    "repeat": "Повтор",
+    "interval": "Интервал",
+    "create": "Создать",
+    "update": "Обновить",
+    "cancel": "Отмена"
+  },
+  "taskItem": {
+    "editTask": "Редактировать задачу",
+    "deleteTask": "Удалить задачу",
+    "markComplete": "Отметить как выполненную",
+    "markIncomplete": "Отметить как невыполненную",
+    "confirmDelete": "Вы уверены, что хотите удалить эту задачу?"
+  },
+  "taskList": {
+    "noTasksFound": "Задачи не найдены",
+    "overdue": "Просрочено",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "thisWeek": "На этой неделе",
+    "later": "Позже"
+  },
+  "timeline": {
+    "todayTimeline": "Расписание на сегодня"
+  },
+  "calendar": {
+    "today": "Сегодня",
+    "prev": "Назад",
+    "next": "Вперёд"
+  },
+  "common": {
+    "noTasks": "Нет задач",
+    "loading": "Загрузка...",
+    "error": "Что-то пошло не так",
+    "tryAgain": "Попробовать снова",
+    "due": "Срок",
+    "start": "Начало",
+    "subtasks": "Подзадачи",
+    "status": {
+      "backlog": "Бэклог",
+      "planned": "Запланировано",
+      "in-progress": "В работе",
+      "completed": "Выполнено",
+      "cancelled": "Отменено"
+    },
+    "priority": {
+      "low": "Низкий",
+      "normal": "Обычный",
+      "high": "Высокий"
+    },
+    "repeatType": {
+      "none": "Без повтора",
+      "daily": "Ежедневно",
+      "weekly": "Еженедельно",
+      "monthly": "Ежемесячно",
+      "custom": "Произвольный"
+    }
+  },
+  "errorBoundary": {
+    "title": "Что-то пошло не так",
+    "message": "Произошла непредвиденная ошибка",
+    "tryAgain": "Попробовать снова"
+  },
+  "language": {
+    "switchToEnglish": "Переключить на English",
+    "switchToRussian": "Переключить на Русский"
+  }
+}

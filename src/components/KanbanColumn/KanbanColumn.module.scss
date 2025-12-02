@@ -3,12 +3,11 @@
   flex-direction: column;
   min-width: 280px;
   max-width: 280px;
-  background: #11111a;
+  background: var(--bg-card);
   border-radius: 12px;
   padding: 1rem;
   border: 1px solid var(--border-color);
-  height: fit-content;
-  max-height: calc(100vh - 200px);
+  height: calc(100vh - 250px);
   transition: all 150ms ease;
 
   &.isOver {
@@ -56,6 +55,7 @@
   overflow-x: hidden;
   flex: 1;
   min-height: 100px;
+  position: relative;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -80,4 +80,23 @@
   color: var(--text-tertiary);
   font-size: 0.875rem;
   padding: 2rem 0;
+}
+
+.insertLine {
+  height: 2px;
+  background: var(--accent-primary);
+  border-radius: 1px;
+  margin: 0.375rem 0;
+  box-shadow: 0 0 8px var(--glow-color);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }

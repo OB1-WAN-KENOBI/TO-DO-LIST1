@@ -4,17 +4,14 @@ export type TaskStatus =
   | "backlog"
   | "planned"
   | "in-progress"
-  | "progress"
   | "completed"
-  | "done"
-  | "cancelled"
-  | "archive";
+  | "cancelled";
 export type KanbanStatus =
   | "backlog"
   | "planned"
-  | "progress"
-  | "done"
-  | "archive";
+  | "in-progress"
+  | "completed"
+  | "cancelled";
 export type Priority = "low" | "normal" | "high";
 export type RepeatType = "daily" | "weekly" | "monthly" | "custom" | "none";
 
@@ -85,11 +82,8 @@ export const taskSchema = z
       "backlog",
       "planned",
       "in-progress",
-      "progress",
       "completed",
-      "done",
       "cancelled",
-      "archive",
     ]),
     priority: z.enum(["low", "normal", "high"]),
     tags: z.array(z.string()),

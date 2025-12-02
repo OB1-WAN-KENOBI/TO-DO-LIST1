@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Task } from "../../types/task";
 import { useFilterStore } from "../../store/filterStore";
 import { getTaskDateGroup, isOverdue } from "../../utils/dateUtils";
@@ -11,6 +12,7 @@ interface TaskListProps {
 }
 
 export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
+  const { t } = useTranslation();
   const {
     dateFilter,
     statusFilter,
@@ -36,7 +38,7 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
 
     if (dateFilter !== "all") {
       filtered = filtered.filter((task) => {
-        if (!task.deadline) return dateFilter === "later";
+        if (!task.deadline) return false;
         const group = getTaskDateGroup(task);
         if (dateFilter === "overdue") return isOverdue(task.deadline);
         return group === dateFilter;
@@ -77,13 +79,15 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
           comparison = priorityOrder[a.priority] - priorityOrder[b.priority];
           break;
         case "status":
-          const statusOrder = {
-            completed: 4,
-            cancelled: 3,
-            "in-progress": 2,
-            planned: 1,
+          const statusOrder: Record<string, number> = {
+            completed: 5,
+            cancelled: 4,
+            "in-progress": 3,
+            planned: 2,
+            backlog: 1,
           };
-          comparison = statusOrder[a.status] - statusOrder[b.status];
+          comparison =
+            (statusOrder[a.status] || 0) - (statusOrder[b.status] || 0);
           break;
         case "title":
           comparison = a.title.localeCompare(b.title);
@@ -134,7 +138,7 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
   if (filteredAndSortedTasks.length === 0) {
     return (
       <div className={styles.empty}>
-        <p>No tasks found</p>
+        <p>{t("taskList.noTasksFound")}</p>
       </div>
     );
   }
@@ -143,7 +147,7 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
     <div className={styles.taskList}>
       {groupedTasks.overdue.length > 0 && (
         <section className={styles.group}>
-          <h2 className={styles.groupTitle}>Overdue</h2>
+          <h2 className={styles.groupTitle}>{t("taskList.overdue")}</h2>
           <div className={styles.tasks}>
             {groupedTasks.overdue.map((task) => (
               <TaskItem key={task.id} task={task} onEdit={onEditTask} />
@@ -154,7 +158,7 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
 
       {groupedTasks.today.length > 0 && (
         <section className={styles.group}>
-          <h2 className={styles.groupTitle}>Today</h2>
+          <h2 className={styles.groupTitle}>{t("taskList.today")}</h2>
           <div className={styles.tasks}>
             {groupedTasks.today.map((task) => (
               <TaskItem key={task.id} task={task} onEdit={onEditTask} />
@@ -165,7 +169,7 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
 
       {groupedTasks.tomorrow.length > 0 && (
         <section className={styles.group}>
-          <h2 className={styles.groupTitle}>Tomorrow</h2>
+          <h2 className={styles.groupTitle}>{t("taskList.tomorrow")}</h2>
           <div className={styles.tasks}>
             {groupedTasks.tomorrow.map((task) => (
               <TaskItem key={task.id} task={task} onEdit={onEditTask} />
@@ -176,7 +180,7 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
 
       {groupedTasks.week.length > 0 && (
         <section className={styles.group}>
-          <h2 className={styles.groupTitle}>This Week</h2>
+          <h2 className={styles.groupTitle}>{t("taskList.thisWeek")}</h2>
           <div className={styles.tasks}>
             {groupedTasks.week.map((task) => (
               <TaskItem key={task.id} task={task} onEdit={onEditTask} />
@@ -187,7 +191,7 @@ export const TaskList = ({ tasks, onEditTask }: TaskListProps) => {
 
       {groupedTasks.later.length > 0 && (
         <section className={styles.group}>
-          <h2 className={styles.groupTitle}>Later</h2>
+          <h2 className={styles.groupTitle}>{t("taskList.later")}</h2>
           <div className={styles.tasks}>
             {groupedTasks.later.map((task) => (
               <TaskItem key={task.id} task={task} onEdit={onEditTask} />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTaskStore } from "./store/taskStore";
 import { useFilterStore } from "./store/filterStore";
 import { useThemeStore } from "./store/themeStore";
@@ -10,7 +10,9 @@ import { CalendarView } from "./components/CalendarView";
 import { TimelineView } from "./components/TimelineView";
 import { TaskEditor } from "./components/TaskEditor";
 import { FilterPanel } from "./components/FilterPanel";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Task } from "./types/task";
+import styles from "./App.module.scss";
 import "./styles/global.scss";
 
 function App() {
@@ -28,22 +30,26 @@ function App() {
     setTheme(theme);
   }, [theme, setTheme]);
 
-  useNotifications(tasks, { enabled: true, reminderMinutes: [15, 60, 1440] });
+  const notificationOptions = useMemo(
+    () => ({ enabled: true, reminderMinutes: [15, 60, 1440] }),
+    []
+  );
+  useNotifications(tasks, notificationOptions);
 
-  const handleAddTask = () => {
+  const handleAddTask = useCallback(() => {
     setEditingTask(null);
     setIsEditorOpen(true);
-  };
+  }, []);
 
-  const handleEditTask = (task: Task) => {
+  const handleEditTask = useCallback((task: Task) => {
     setEditingTask(task);
     setIsEditorOpen(true);
-  };
+  }, []);
 
-  const handleCloseEditor = () => {
+  const handleCloseEditor = useCallback(() => {
     setIsEditorOpen(false);
     setEditingTask(null);
-  };
+  }, []);
 
   const renderView = () => {
     switch (viewMode) {
@@ -72,11 +78,13 @@ function App() {
     <div className="app">
       <Header onAddTask={handleAddTask} />
       <div className="container">
-        <div style={{ display: "flex", gap: "2rem", padding: "2rem 0" }}>
-          <aside style={{ width: "300px", flexShrink: 0 }}>
+        <div className={styles.layout}>
+          <aside className={styles.sidebar}>
             <FilterPanel />
           </aside>
-          <main style={{ flex: 1 }}>{renderView()}</main>
+          <main className={styles.main}>
+            <ErrorBoundary>{renderView()}</ErrorBoundary>
+          </main>
         </div>
       </div>
       <TaskEditor
